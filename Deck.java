@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class Deck
@@ -9,11 +10,7 @@ public class Deck
     //Constructor
     public Deck()
     {
-        //Add each individual card to the deck
-        deck.add(Card.THREEOFSPADES);
-        deck.add(Card.THREEOFCLUBS);
-        deck.add(Card.THREEOFDIAMONDS);
-        deck.add(Card.THREEOFHEARTS);
+        deck.addAll(Arrays.asList(Card.cards));
     }
 
     //Shuffle the deck
@@ -35,7 +32,7 @@ public class Deck
     public void dealPlayer(Player player) throws Exception
     {
         for(int i = 0; i < 4; i++)
-            player.hand.addCard(popCard());
+            player.hand.pushCard(this);
     }
 
     public void addCard(Card card) throws Exception

@@ -4,10 +4,10 @@ import java.util.Collections;
 
 public class Deck
 {
-    //Attributes
+    // Used to hold each card
     ArrayList<Card> deck = new ArrayList<>();
 
-    //Constructor
+    // Adds every card to this object's ArrayList
     public Deck()
     {
         deck.addAll(Arrays.asList(Card.cards));
@@ -35,6 +35,7 @@ public class Deck
             player.hand.pushCard(this);
     }
 
+    // Add a card to the deck
     public void addCard(Card card) throws Exception
     {
        deck.add(card);

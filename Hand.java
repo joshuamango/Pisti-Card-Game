@@ -1,34 +1,39 @@
-public class Hand extends Deck
+import java.util.ArrayList;
+
+public class Hand
 {
     //Attributes
-    private int numberOfCards;
+    ArrayList<Card> hand = new ArrayList<>();
 
     //Constructor
-    public Hand()
+    public Hand(Deck deck)
     {
+        // Add four cards to the hand
+        try {
+            this.pushCard(deck);
+            this.pushCard(deck);
+            this.pushCard(deck);
+            this.pushCard(deck);
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     //Methods
-    public void playCard(Card card, Pile pile) throws Exception
+    public Card popCard(Card card) throws Exception
     {
-        if (deck.contains(card))
-        {
-            int index = deck.indexOf(card);
-            pile.deck.add(deck.remove(index));
-            numberOfCards--;
-        }
+        if (hand.size() > 0)
+            return hand.get(hand.indexOf(card));
         else
-            throw new Exception("Card not in hand");
+            throw new Exception("Hand Empty");
     }
 
-    public void addCard(Card card) throws Exception
+    public void pushCard(Deck deck) throws Exception
     {
-        if (deck.contains(card))
-        {
-            deck.add(card);
-            numberOfCards++;
-        }
+        if (hand.size() < 4)
+            hand.add(deck.popCard());
         else
-            throw new Exception("Card not in hand");
+            throw new Exception("Hand Full");
     }
 }

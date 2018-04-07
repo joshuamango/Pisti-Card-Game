@@ -1,15 +1,12 @@
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
 
 public class Board extends Application
 {
@@ -22,67 +19,69 @@ public class Board extends Application
     @Override
     public void start(Stage primaryStage) throws Exception
     {
-        //Create Pane with green felt background
-        Pane backgroundPane = new Pane();
-        ImageView background = new ImageView(new Image("PNG/Table.png", 1366, 768,
-                true, false));
-
-        //Bind the width and height of the background image to the pane's width and height
-        background.fitHeightProperty().bind(backgroundPane.heightProperty());
-        background.fitWidthProperty().bind(backgroundPane.widthProperty());
-
-        //Add the background to the pane
-        backgroundPane.getChildren().add(background);
-
-        //Pane for cards
-        Pane pane = new Pane();
-
-        Deck deck = new Deck();
-        Font font = Font.font("Times New Roman", FontWeight.SEMI_BOLD, FontPosture.ITALIC, 50);
-        Label label = new Label("Pile: ");
-        label.setFont(font);
-        label.setEffect(new DropShadow(10, 5, 5, Color.BLACK));
-        label.setLayoutX(600);
-        label.setLayoutY(300);
-        label.setStyle("-fx-fill-color: white");
-
-        //Create card images
-        for (int i = 0; i < 4; i++)
-        {
-            Card card = deck.popCard();
-            if (i == 0 || i == 2)
-                card.getImage().setRotate(30);
-            else
-                card.getImage().setRotate(-30);
-            card.getImage().setEffect(new DropShadow(20, 10, 10,  Color.BLACK));
-            card.getImage().setX(i * 100);
-            card.getImage().setY(i * 200);
-            pane.getChildren().add(card.getImage());
-        }
-
-        //Testing EventHandling on the first card image
-        for (int i = 0; i < 4; i++)
-        {
-            pane.getChildren().get(i).setOnMouseClicked( event -> {
-                System.out.println("Card Image Clicked!");
-            });
-        }
-
-
-
-        pane.getChildren().add(label);
-        //StackPane
+        // Create a StackPane
         StackPane stackPane = new StackPane();
-        stackPane.getChildren().add(backgroundPane);
-        stackPane.getChildren().add(pane);
 
+        // Create a BorderPane
+        BorderPane borderPane = new BorderPane();
 
-        //Add pane to scene
-        Scene scene = new Scene(stackPane);
+        // Get Background Image and add it to stackPane
+        ImageView greenFelt = new ImageView(new Image("PNG/Table.png", 1280, 720, true, true));
+        stackPane.getChildren().addAll(greenFelt, borderPane);
 
-        //Add scene to stage
+        // Create an HBox and set alignment and spacing
+        HBox playerCardPane = new HBox();
+        playerCardPane.setSpacing(10);
+        playerCardPane.setAlignment(Pos.CENTER);
+
+        HBox botCardPane = new HBox();
+        botCardPane.setSpacing(10);
+        botCardPane.setAlignment(Pos.CENTER);
+
+        // Add cardPane to the bottom of borderPane
+        borderPane.setBottom(playerCardPane);
+        borderPane.setTop(botCardPane);
+
+        // Main draw deck
+        Deck mainDeck = new Deck();
+        mainDeck.shuffle();
+
+        // Center discard pile
+        Pile pile = new Pile();
+
+        Hand playerHand = new Hand(mainDeck);
+        Hand botHand = new Hand(mainDeck);
+
+        // Add the player's cards to the playerCardPane
+        for (Card card : playerHand.hand) {
+            playerCardPane.getChildren().add(card.getImage());
+        }
+
+        // Create a card and add it to cardPane
+        for (Card card : botHand.hand) {
+            botCardPane.getChildren().add(card.getImage());
+        }
+
+        playerCardPane.getChildren().get(3).setOnMouseClicked(event -> {
+            playerCardPane.getChildren().remove(3);
+        });
+
+        playerCardPane.getChildren().get(0).setOnMouseClicked(event -> {
+            playerCardPane.getChildren().remove(0);
+        });
+
+        playerCardPane.getChildren().get(1).setOnMouseClicked(event -> {
+            playerCardPane.getChildren().remove(1);
+        });
+
+        playerCardPane.getChildren().get(2).setOnMouseClicked(event -> {
+            playerCardPane.getChildren().remove(2);
+        });
+        // Create a Scene and add it to the stage
+        Scene scene = new Scene(stackPane, 1060, 720);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Pişti");
+        primaryStage.setTitle("Pisti");
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 }

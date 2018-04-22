@@ -4,10 +4,10 @@ import java.util.Collections;
 
 public class Deck
 {
-    // Used to hold each card
+    //Attributes
     ArrayList<Card> deck = new ArrayList<>();
 
-    // Adds every card to this object's ArrayList
+    //Constructor
     public Deck()
     {
         deck.addAll(Arrays.asList(Card.cards));
@@ -28,14 +28,6 @@ public class Deck
             throw new Exception("Deck Empty");
     }
 
-    //Add four cards to the players hand
-    public void dealPlayer(Player player) throws Exception
-    {
-        for(int i = 0; i < 4; i++)
-            player.hand.pushCard(this);
-    }
-
-    // Add a card to the deck
     public void addCard(Card card) throws Exception
     {
        deck.add(card);

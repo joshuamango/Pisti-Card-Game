@@ -1,14 +1,32 @@
+import java.util.ArrayList;
+
 public class Player
 {
     //Attributes
-    public Hand hand;
-    private Deck captured;
+    ArrayList<Card> capturedCards = new ArrayList<>();
     private boolean isTurn;
-    private double points;
+    private int score;
 
     //Constructor
     public Player()
     {
+
+    }
+
+    //Adds the points for each card captured to the player's points
+    public void calculateScore()
+    {
+        for (Card card: capturedCards)
+        {
+            if (card.getValue() == 10 && card.getSuit() == 'D')
+                score += 3;
+            else if (card.getValue() == 2 && card.getSuit() == 'C')
+                score += 2;
+            else if (card.getValue() == 1 || card.getValue() == 10 || card.getValue() == 11 || card.getValue() == 12 || card.getValue() == 13)
+                score += 1;
+            else
+                score += 3;
+        }
     }
 
     //Returns true if it is currently this players turn
@@ -23,23 +41,15 @@ public class Player
         isTurn = turn;
     }
 
-    //Returns a deck with the cards that are currently in the players hand
-    public Hand getHand()
+    // Returns the player's current score
+    public int getScore()
     {
-        return hand;
+        return score;
     }
 
-    public Deck getCaptured()
-    {
-        return captured;
-    }
+    // Adds ten points to the player's score
+    public void pisti() { score += 10; }
 
-    //Adds the points for each card captured to the player's points
-    public void getTotalPoints(Deck captured)
-    {
-        for (Card card: captured.deck)
-        {
-            this.points += card.getValue();
-        }
-    }
+    // Adds twenty points to the player's score
+    public void doublePisti() { score += 20; }
 }

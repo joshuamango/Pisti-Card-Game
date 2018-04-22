@@ -20,18 +20,19 @@ public class Hand
         }
     }
 
+
     //Methods
     public Card popCard(Card card) throws Exception
     {
         if (hand.size() > 0)
-            return hand.get(hand.indexOf(card));
+            return hand.remove(hand.indexOf(card));
         else
             throw new Exception("Hand Empty");
     }
 
     public void pushCard(Deck deck) throws Exception
     {
-        if (hand.size() < 4)
+        if (hand.size() < 5)
             hand.add(deck.popCard());
         else
             throw new Exception("Hand Full");

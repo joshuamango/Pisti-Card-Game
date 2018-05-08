@@ -1,20 +1,30 @@
-import java.util.Collections;
-
 public class Pile extends Deck
 {
-    //Atributes
-    private int numberOfCards;
-    private Card topCard;
+    //Attributes
+    private String lastCaptured = "";
 
     //Constructor
     public Pile()
     {
-        numberOfCards = 4;
-        topCard = deck.get(deck.size() - 1);
+        deck.clear();
     }
-    //Methods
-    public void capture(Player player, Card card) throws Exception
+
+
+    public Card getTopCard()
     {
-        player.getCaptured().addCard(card);
+        if (deck.size() > 0)
+            return deck.get(deck.size() - 1);
+        else
+            return Card.BLUE;
+    }
+
+    public void setLastCaptured(String player)
+    {
+        lastCaptured = player;
+    }
+
+    public String getLastCaptured()
+    {
+        return lastCaptured;
     }
 }
